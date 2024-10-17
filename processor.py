@@ -1,9 +1,10 @@
 import gymnasium as gym
 import subprocess
 import socket
+import kagglehub
+import os
 
-
-class Processor():
+class Model():
     def __init__(self, path, model, address, port, verbose, visible):
         # Initialize Processor
         self.path = path
@@ -14,11 +15,11 @@ class Processor():
         self.visible = visible
         
         # Call function to launch FlexSim
-        self.launch_flexsim()
+        self._launch_flexsim()
     
     
     # Function to launch FlexSim    
-    def launch_flexsim(self):
+    def _launch_flexsim(self):
         if self.verbose:
             print("\nLaunching FlexSim...")
             print("Loading Model: " + self.model)
@@ -28,7 +29,7 @@ class Processor():
         self.process = subprocess.Popen(args)
 
         # Call function to initialize socket connection
-        self.socket_init(self.address, self.port)
+        self._socket_init(self.address, self.port)
     
     
     # Function to close FlexSim
@@ -37,14 +38,14 @@ class Processor():
         
     
     # Function to initialize socket connection (Server-side)
-    def socket_init(self, socket_address, socket_port):
+    def _socket_init(self, host, port):
         if self.verbose:
             print("Waiting for FlexSim to connect to socket on " + self.address + ":" + str(self.port) + "\n")
             
         # Initialize socket connection
         while True:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Create a socket object
-            self.socket.bind((socket_address, socket_port)) # Bind socket to address and port
+            self.socket.bind((host, port)) # Bind socket to address and port
             self.socket.listen() # Listen for connections
             self.connection, self.address = self.socket.accept() # Accept connection
             if self.verbose:
@@ -75,6 +76,24 @@ class Processor():
         
     
 def main():
+    dataset_path = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Datasets/people-10-m"
+    
+    # Check if the dataset path exists
+    if not os.path.exists(dataset_path):
+        print(f"Error: Dataset path '{dataset_path}' does not exist.")
+        return
+    
+    # Download latest version
+    try:
+        datasetPath = kagglehub.dataset_download(dataset_path)
+        print("Path to dataset files:", datasetPath)
+    except ValueError as e:
+        print(f"Error downloading dataset: {e}")
+        return
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return
+    
     flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"  # Edit Local Path to FlexSim executable
     modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/ChangeoverTimesRL.fsm"  # Edit Local Path to FlexSim model
     host = '127.0.0.1' # This is the localhost
@@ -82,7 +101,7 @@ def main():
     verbose = True
     visible = True
         
-    Processor(flexsimPath, modelPath, host, port, verbose, visible)
+    Model(flexsimPath, modelPath, host, port, verbose, visible)
     
 if __name__ == '__main__':
     main()
