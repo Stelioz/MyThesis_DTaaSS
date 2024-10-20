@@ -107,7 +107,7 @@ class Model():
     
 def main():   
     flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"  # Edit Local Path to FlexSim executable
-    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/station_2330_1710.fsm"  # Edit Local Path to FlexSim model
+    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/station_1810_1430.fsm"  # Edit Local Path to FlexSim model
     host = '127.0.0.1' # This is the localhost
     port = 5005
     verbose = True
