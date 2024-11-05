@@ -1,5 +1,9 @@
 import subprocess
 import socket
+import pandas as pd
+import os
+import re
+
 
 class Model():
     def __init__(self, path, model, address, port_number, verbose, visible):
@@ -84,6 +88,9 @@ class Model():
                             print("Simulation paused. Waiting for resumption...")
                         continue
                     
+                    # Call the _data_store function to save the received data
+                    self._data_store(decoded_data)
+                    
                     # Send data to FlexSim
                     self.connection.sendall(b"ACK")  # The acknowledgment prevent freezing of FlexSim
                     
@@ -103,11 +110,41 @@ class Model():
             if self.verbose:
                 print(f"Sending data: {data}")
             self.connection.sendall(data)
+    
+
+    def _data_store(self, data):
+        # Use regular expressions to clean up the data
+        cleaned_rows = []
+        rows = data.strip().split("\n")  # Split data into rows
+
+        for row in rows:
+            # Remove "Civilian:", "SSN:", and "FACE:" labels using regex
+            cleaned_row = re.sub(r"Civilian: |SSN: |FACE: ", "", row)
+            cleaned_rows.append(cleaned_row.split(", "))  # Split fields by comma and space
+
+        # Create a DataFrame from the cleaned data
+        df = pd.DataFrame(cleaned_rows, columns=["Name", "SSN", "FaceID"])
+
+        # Define the CSV file path
+        csv_file_path = os.path.join("output", "flexsim_data.csv")
+
+        # Create the output directory if it doesn't exist
+        os.makedirs("output", exist_ok=True)
+
+        # Check if the file already exists to determine whether to write the header
+        file_exists = os.path.isfile(csv_file_path)
+
+        # Append data to the CSV file
+        df.to_csv(csv_file_path, mode='a', index=False, header=not file_exists)  # Append without header if file exists
+
+        if self.verbose:
+            print(f"Entry saved to {csv_file_path}\n")
+
         
     
 def main():   
     flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"  # Edit Local Path to FlexSim executable
-    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/station_1810_1430.fsm"  # Edit Local Path to FlexSim model
+    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/station_1810-1430.fsm" # Edit Local Path to FlexSim model
     host = '127.0.0.1' # This is the localhost
     port = 5005
     verbose = True
