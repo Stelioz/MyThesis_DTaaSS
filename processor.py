@@ -80,7 +80,7 @@ class Model():
                         break
 
                     if self.verbose:
-                        print(f"Civiian identified: {decoded_data}")
+                        print(f"Civilian identified: {decoded_data}")
                     
                     # Handle the "PAUSE" message gracefully
                     if decoded_data == "PAUSE":
@@ -138,13 +138,13 @@ class Model():
         df.to_csv(csv_file_path, mode='a', index=False, header=not file_exists)  # Append without header if file exists
 
         if self.verbose:
-            print(f"Entry saved to {csv_file_path}\n")
+            print(f"Entry saved to filepath: {csv_file_path}\n")
 
         
     
 def main():   
     flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"  # Edit Local Path to FlexSim executable
-    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/station_1810-1430.fsm" # Edit Local Path to FlexSim model
+    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/Thesis_Model_v1.fsm" # Edit Local Path to FlexSim model
     host = '127.0.0.1' # This is the localhost
     port = 5005
     verbose = True
