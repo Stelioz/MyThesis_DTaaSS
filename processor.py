@@ -80,7 +80,7 @@ class Model():
                         break
 
                     if self.verbose:
-                        print(f"Civilian identified: {decoded_data}")
+                        print(f"New entry from Flexsim \n {decoded_data}")
                     
                     # Handle the "PAUSE" message gracefully
                     if decoded_data == "PAUSE":
@@ -112,18 +112,31 @@ class Model():
             self.connection.sendall(data)
     
 
+    # Function to store data in a CSV file
     def _data_store(self, data):
         # Use regular expressions to clean up the data
         cleaned_rows = []
         rows = data.strip().split("\n")  # Split data into rows
 
+        # Loop through the rows and clean up the data
         for row in rows:
-            # Remove "Civilian:", "SSN:", and "FACE:" labels using regex
-            cleaned_row = re.sub(r"Civilian: |SSN: |FACE: ", "", row)
+            # Remove specified labels using regex
+            cleaned_row = re.sub(
+                r"Rank: |Person: |ssn: "
+                r"|Angle1: |Distance1: |Density1: |Angle2: |Distance2: |Density2: "
+                r"|Angle3: |Distance3: |Density3: |Angle4: |Distance4: |Density4: "
+                r"|Angle5: |Distance5: |Density5: |Angle6: |Distance6: |Density6: ",
+                "",
+                row,
+            )
             cleaned_rows.append(cleaned_row.split(", "))  # Split fields by comma and space
 
         # Create a DataFrame from the cleaned data
-        df = pd.DataFrame(cleaned_rows, columns=["Name", "SSN", "FaceID"])
+        df = pd.DataFrame(cleaned_rows, columns=[
+            "Rank", "Name & Surname", "SSN", 
+            "Angle1", "Distance1", "Density1", "Angle2", "Distance2", "Density2",
+            "Angle3", "Distance3", "Density3", "Angle4", "Distance4", "Density4",
+            "Angle5", "Distance5", "Density5", "Angle6", "Distance6", "Density6"])
 
         # Define the CSV file path
         csv_file_path = os.path.join("output", "flexsim_data.csv")
@@ -137,6 +150,7 @@ class Model():
         # Append data to the CSV file
         df.to_csv(csv_file_path, mode='a', index=False, header=not file_exists)  # Append without header if file exists
 
+        # Print a message to indicate that the entry was saved
         if self.verbose:
             print(f"Entry saved to filepath: {csv_file_path}\n")
 
@@ -144,7 +158,7 @@ class Model():
     
 def main():   
     flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"  # Edit Local Path to FlexSim executable
-    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/Thesis_Model_v1.fsm" # Edit Local Path to FlexSim model
+    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/Thesis_Model_v2.fsm" # Edit Local Path to FlexSim model
     host = '127.0.0.1' # This is the localhost
     port = 5005
     verbose = True
