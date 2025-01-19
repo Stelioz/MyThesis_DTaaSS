@@ -80,7 +80,7 @@ class Model():
                         break
 
                     if self.verbose:
-                        print(f"New entry from Flexsim \n {decoded_data}")
+                        print(f"New entry from Flexsim \n{decoded_data}")
                     
                     # Handle the "PAUSE" message gracefully
                     if decoded_data == "PAUSE":
