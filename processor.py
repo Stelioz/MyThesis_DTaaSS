@@ -122,8 +122,7 @@ class Model():
         for row in rows:
             # Remove specified labels using regex
             cleaned_row = re.sub(
-                r"Rank: |Person: |ssn: "
-                r"|Angle1: |Distance1: |Density1: |Angle2: |Distance2: |Density2: "
+                r"Rank: |Angle1: |Distance1: |Density1: |Angle2: |Distance2: |Density2: "
                 r"|Angle3: |Distance3: |Density3: |Angle4: |Distance4: |Density4: "
                 r"|Angle5: |Distance5: |Density5: |Angle6: |Distance6: |Density6: ",
                 "",
@@ -133,13 +132,12 @@ class Model():
 
         # Create a DataFrame from the cleaned data
         df = pd.DataFrame(cleaned_rows, columns=[
-            "Rank", "Name & Surname", "SSN", 
-            "Angle1", "Distance1", "Density1", "Angle2", "Distance2", "Density2",
+            "Rank", "Angle1", "Distance1", "Density1", "Angle2", "Distance2", "Density2",
             "Angle3", "Distance3", "Density3", "Angle4", "Distance4", "Density4",
             "Angle5", "Distance5", "Density5", "Angle6", "Distance6", "Density6"])
 
         # Define the CSV file path
-        csv_file_path = os.path.join("output", "flexsim_data.csv")
+        csv_file_path = os.path.join("output", "flexsim_data11.csv")
 
         # Create the output directory if it doesn't exist
         os.makedirs("output", exist_ok=True)
@@ -158,7 +156,7 @@ class Model():
     
 def main():   
     flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"  # Edit Local Path to FlexSim executable
-    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/Model/Thesis_Model_v2.fsm" # Edit Local Path to FlexSim model
+    modelPath = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/models/Thesis_Model_v2.fsm" # Edit Local Path to FlexSim model
     host = '127.0.0.1' # This is the localhost
     port = 5005
     verbose = True
