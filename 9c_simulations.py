@@ -6,13 +6,14 @@ import re
 
 
 class Model:
-    def __init__(self, path, model, address, port_number, verbose, visible):
+    def __init__(self, path, model, address, port_number, verbose, visible, output_prefix):
         self.path = path
         self.model = model
         self.address = address
         self.port_number = port_number
         self.verbose = verbose
         self.visible = visible
+        self.output_prefix = output_prefix
 
         self._launch_flexsim()
 
@@ -84,7 +85,9 @@ class Model:
                 r"Rank:"
                 r"|Angle1: |Distance1: |Density1: |Angle2: |Distance2: |Density2: "
                 r"|Angle3: |Distance3: |Density3: |Angle4: |Distance4: |Density4: "
-                r"|Angle5: |Distance5: |Density5: |Angle6: |Distance6: |Density6: ",
+                r"|Angle5: |Distance5: |Density5: |Angle6: |Distance6: |Density6: "
+                r"|Angle7: |Distance7: |Density7: |Angle8: |Distance8: |Density8: "
+                r"|Angle9: |Distance9: |Density9: ",
                 "",
                 row,
             )
@@ -94,13 +97,15 @@ class Model:
             "Rank",
             "Angle1", "Distance1", "Density1", "Angle2", "Distance2", "Density2",
             "Angle3", "Distance3", "Density3", "Angle4", "Distance4", "Density4",
-            "Angle5", "Distance5", "Density5", "Angle6", "Distance6", "Density6"
+            "Angle5", "Distance5", "Density5", "Angle6", "Distance6", "Density6",
+            "Angle7", "Distance7", "Density7", "Angle8", "Distance8", "Density8",
+            "Angle9", "Distance9", "Density9"
         ])
 
         for col in df.columns[1:]:
             df[col] = pd.to_numeric(df[col], errors='coerce')
 
-        csv_file_path = os.path.join("output", "flexsim_data1.csv")
+        csv_file_path = os.path.join("output", f"{self.output_prefix}_flexsim_data.csv")
         os.makedirs("output", exist_ok=True)
         file_exists = os.path.isfile(csv_file_path)
         df.to_csv(csv_file_path, mode='a', index=False, header=not file_exists)
@@ -137,13 +142,18 @@ class Model:
                 axis=1
             )
 
-        grouped_result = result_data.groupby("Rank", as_index=False).agg(
+        # Include 'Rank' as the first column
+        grouped_result = result_data.groupby("Rank").agg(
             {
+                "Rank": "first",  # Preserve the Rank column
                 **{f"Camera{i}_Performance": "max" for i in range(1, 7)}
             }
         )
 
-        output_file_path = os.path.join("output", "camera_performances1.csv")
+        # Reorder columns to ensure 'Rank' is the first column
+        grouped_result = grouped_result[["Rank"] + [f"Camera{i}_Performance" for i in range(1, 7)]]
+
+        output_file_path = os.path.join("output", f"{self.output_prefix}_camera_performances.csv")
         grouped_result.to_csv(output_file_path, index=False)
 
         print("\nCamera Performances:")
@@ -164,22 +174,23 @@ def main():
     
     choice = input("\nEnter your choice (1/2/3): ").strip()
     model_map = {
-        "1": "Base_Model_Morning.fsm",
-        "2": "Base_Model_Noon.fsm",
-        "3": "Base_Model_Afternoon.fsm"
+        "1": ("9C_Model_Morning.fsm", "9c_morning"),
+        "2": ("9C_Model_Noon.fsm", "9c_noon"),
+        "3": ("9C_Model_Afternoon.fsm", "9c_afternoon")
     }
     
     if choice not in model_map:
         print("\nInvalid choice. Exiting...")
         return
     
-    modelPath = os.path.join(models_dir, model_map[choice])
+    model_file, output_prefix = model_map[choice]
+    modelPath = os.path.join(models_dir, model_file)
     host = '127.0.0.1'
     port = 5005
     verbose = True
     visible = True
 
-    Model(flexsimPath, modelPath, host, port, verbose, visible)
+    Model(flexsimPath, modelPath, host, port, verbose, visible, output_prefix)
 
 
 if __name__ == '__main__':
