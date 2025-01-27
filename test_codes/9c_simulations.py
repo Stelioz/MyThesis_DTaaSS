@@ -87,8 +87,7 @@ class Model:
                 r"|Angle3: |Distance3: |Density3: |Angle4: |Distance4: |Density4: "
                 r"|Angle5: |Distance5: |Density5: |Angle6: |Distance6: |Density6: "
                 r"|Angle7: |Distance7: |Density7: |Angle8: |Distance8: |Density8: "
-                r"|Angle9: |Distance9: |Density9: |Angle10: |Distance10: |Density10: "
-                r"|Angle11: |Distance11: |Density11: ",
+                r"|Angle9: |Distance9: |Density9: ",
                 "",
                 row,
             )
@@ -100,8 +99,7 @@ class Model:
             "Angle3", "Distance3", "Density3", "Angle4", "Distance4", "Density4",
             "Angle5", "Distance5", "Density5", "Angle6", "Distance6", "Density6",
             "Angle7", "Distance7", "Density7", "Angle8", "Distance8", "Density8",
-            "Angle9", "Distance9", "Density9", "Angle10", "Distance10", "Density10",
-            "Angle11", "Distance11", "Density11"
+            "Angle9", "Distance9", "Density9"
         ])
 
         for col in df.columns[1:]:
@@ -153,7 +151,7 @@ class Model:
         )
 
         # Reorder columns to ensure 'Rank' is the first column
-        grouped_result = grouped_result[["Rank"] + [f"Camera{i}_Performance" for i in range(1, 7)]]
+        grouped_result = grouped_result[["Rank"] + [f"Camera{i}_Performance" for i in range(1, 10)]]
 
         output_file_path = os.path.join("output", f"{self.output_prefix}_camera_performances.csv")
         grouped_result.to_csv(output_file_path, index=False)
@@ -176,9 +174,9 @@ def main():
     
     choice = input("\nEnter your choice (1/2/3): ").strip()
     model_map = {
-        "1": ("11C_Model_Morning.fsm", "11c_morning"),
-        "2": ("11C_Model_Noon.fsm", "11c_noon"),
-        "3": ("11C_Model_Afternoon.fsm", "11c_afternoon")
+        "1": ("9C_Model_Morning.fsm", "9c_morning"),
+        "2": ("9C_Model_Noon.fsm", "9c_noon"),
+        "3": ("9C_Model_Afternoon.fsm", "9c_afternoon")
     }
     
     if choice not in model_map:

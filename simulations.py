@@ -86,7 +86,9 @@ class Model:
                 r"|Angle1: |Distance1: |Density1: |Angle2: |Distance2: |Density2: "
                 r"|Angle3: |Distance3: |Density3: |Angle4: |Distance4: |Density4: "
                 r"|Angle5: |Distance5: |Density5: |Angle6: |Distance6: |Density6: "
-                r"|Angle7: |Distance7: |Density7: ",
+                r"|Angle7: |Distance7: |Density7: |Angle8: |Distance8: |Density8: "
+                r"|Angle9: |Distance9: |Density9: |Angle10: |Distance10: |Density10: "
+                r"|Angle11: |Distance11: |Density11: ",
                 "",
                 row,
             )
@@ -97,7 +99,9 @@ class Model:
             "Angle1", "Distance1", "Density1", "Angle2", "Distance2", "Density2",
             "Angle3", "Distance3", "Density3", "Angle4", "Distance4", "Density4",
             "Angle5", "Distance5", "Density5", "Angle6", "Distance6", "Density6",
-            "Angle7", "Distance7", "Density7"
+            "Angle7", "Distance7", "Density7", "Angle8", "Distance8", "Density8",
+            "Angle9", "Distance9", "Density9", "Angle10", "Distance10", "Density10",
+            "Angle11", "Distance11", "Density11"
         ])
 
         for col in df.columns[1:]:
@@ -131,25 +135,33 @@ class Model:
             )
             return max(0, min(1, performance)) * 100
 
+        # Identify the number of cameras dynamically based on the data columns
+        camera_columns = [col for col in data.columns if re.match(r"Angle\d+", col)]
+        num_cameras = len(camera_columns)
+
         result_data = data[["Rank"]].copy()
 
-        for i in range(1, 7):
+        for i in range(1, num_cameras + 1):
             performance_column = f"Camera{i}_Performance"
             result_data[performance_column] = data.apply(
-                lambda row: calculate_performance(row[f"Angle{i}"], row[f"Distance{i}"], row[f"Density{i}"]),
-                axis=1
+                lambda row: calculate_performance(
+                    row.get(f"Angle{i}", 0),
+                    row.get(f"Distance{i}", 0),
+                    row.get(f"Density{i}", 0),
+                ),
+                axis=1,
             )
 
-        # Include 'Rank' as the first column
-        grouped_result = result_data.groupby("Rank", as_index=True).agg(
+        # Group by Rank and aggregate maximum performance for each camera
+        grouped_result = result_data.groupby("Rank", as_index=False).agg(
             {
                 "Rank": "first",  # Preserve the Rank column
-                **{f"Camera{i}_Performance": "max" for i in range(1, 7)}
+                **{f"Camera{i}_Performance": "max" for i in range(1, num_cameras + 1)},
             }
         )
 
         # Reorder columns to ensure 'Rank' is the first column
-        grouped_result = grouped_result[["Rank"] + [f"Camera{i}_Performance" for i in range(1, 7)]]
+        grouped_result = grouped_result[["Rank"] + [f"Camera{i}_Performance" for i in range(1, num_cameras + 1)]]
 
         output_file_path = os.path.join("output", f"{self.output_prefix}_camera_performances.csv")
         grouped_result.to_csv(output_file_path, index=False)
@@ -161,6 +173,7 @@ class Model:
             print(f"Camera performances saved to: {output_file_path}")
 
 
+
 def main():
     flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"
     models_dir = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/models/"
@@ -170,24 +183,54 @@ def main():
     print("2: Noon")
     print("3: Afternoon")
     
-    choice = input("\nEnter your choice (1/2/3): ").strip()
-    model_map = {
-        "1": ("7C_Model_Morning.fsm", "7c_morning"),
-        "2": ("7C_Model_Noon.fsm", "7c_noon"),
-        "3": ("7C_Model_Afternoon.fsm", "7c_afternoon")
+    time_choice = input("\nEnter your choice (1/2/3): ").strip()
+    
+    time_model_map = {
+        "1": "Morning",
+        "2": "Noon",
+        "3": "Afternoon"
     }
     
-    if choice not in model_map:
+    if time_choice not in time_model_map:
         print("\nInvalid choice. Exiting...")
         return
     
-    model_file, output_prefix = model_map[choice]
+    time_of_day = time_model_map[time_choice]
+    print(f"\nYou selected: {time_of_day}")
+
+    print("\nPlease choose the model you want to simulate:")
+    print("1: Base_Model")
+    print("2: 7C_Model")
+    print("3: 9C_Model")
+    print("4: 11C_Model")
+
+    model_choice = input("\nEnter your choice (1/2/3/4): ").strip()
+    
+    model_map = {
+        "1": "Base_Model",
+        "2": "7C_Model",
+        "3": "9C_Model",
+        "4": "11C_Model"
+    }
+    
+    if model_choice not in model_map:
+        print("\nInvalid choice. Exiting...")
+        return
+    
+    model_type = model_map[model_choice]
+    print(f"\nYou selected: {model_type}")
+    
+    # Combine time of day and model type to construct the model filename
+    model_file = f"{model_type}_{time_of_day}.fsm"
+    output_prefix = f"{model_type.lower()}_{time_of_day.lower()}"
     modelPath = os.path.join(models_dir, model_file)
+    
     host = '127.0.0.1'
     port = 5005
     verbose = True
     visible = True
 
+    print(f"\nLoading the model: {model_file}")
     Model(flexsimPath, modelPath, host, port, verbose, visible, output_prefix)
 
 

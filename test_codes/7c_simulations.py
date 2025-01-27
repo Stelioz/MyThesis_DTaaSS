@@ -86,8 +86,7 @@ class Model:
                 r"|Angle1: |Distance1: |Density1: |Angle2: |Distance2: |Density2: "
                 r"|Angle3: |Distance3: |Density3: |Angle4: |Distance4: |Density4: "
                 r"|Angle5: |Distance5: |Density5: |Angle6: |Distance6: |Density6: "
-                r"|Angle7: |Distance7: |Density7: |Angle8: |Distance8: |Density8: "
-                r"|Angle9: |Distance9: |Density9: ",
+                r"|Angle7: |Distance7: |Density7: ",
                 "",
                 row,
             )
@@ -98,8 +97,7 @@ class Model:
             "Angle1", "Distance1", "Density1", "Angle2", "Distance2", "Density2",
             "Angle3", "Distance3", "Density3", "Angle4", "Distance4", "Density4",
             "Angle5", "Distance5", "Density5", "Angle6", "Distance6", "Density6",
-            "Angle7", "Distance7", "Density7", "Angle8", "Distance8", "Density8",
-            "Angle9", "Distance9", "Density9"
+            "Angle7", "Distance7", "Density7"
         ])
 
         for col in df.columns[1:]:
@@ -143,7 +141,7 @@ class Model:
             )
 
         # Include 'Rank' as the first column
-        grouped_result = result_data.groupby("Rank").agg(
+        grouped_result = result_data.groupby("Rank", as_index=True).agg(
             {
                 "Rank": "first",  # Preserve the Rank column
                 **{f"Camera{i}_Performance": "max" for i in range(1, 7)}
@@ -151,7 +149,7 @@ class Model:
         )
 
         # Reorder columns to ensure 'Rank' is the first column
-        grouped_result = grouped_result[["Rank"] + [f"Camera{i}_Performance" for i in range(1, 7)]]
+        grouped_result = grouped_result[["Rank"] + [f"Camera{i}_Performance" for i in range(1, 8)]]
 
         output_file_path = os.path.join("output", f"{self.output_prefix}_camera_performances.csv")
         grouped_result.to_csv(output_file_path, index=False)
@@ -174,9 +172,9 @@ def main():
     
     choice = input("\nEnter your choice (1/2/3): ").strip()
     model_map = {
-        "1": ("9C_Model_Morning.fsm", "9c_morning"),
-        "2": ("9C_Model_Noon.fsm", "9c_noon"),
-        "3": ("9C_Model_Afternoon.fsm", "9c_afternoon")
+        "1": ("7C_Model_Morning.fsm", "7c_morning"),
+        "2": ("7C_Model_Noon.fsm", "7c_noon"),
+        "3": ("7C_Model_Afternoon.fsm", "7c_afternoon")
     }
     
     if choice not in model_map:
