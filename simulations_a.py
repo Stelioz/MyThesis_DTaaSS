@@ -193,18 +193,18 @@ def main():
     print(f"\nYou selected: {time_of_day}")
 
     print("\nPlease choose the model you want to simulate:")
-    print("1: Base_Model")
-    print("2: 7C_Model")
-    print("3: 9C_Model")
-    print("4: 11C_Model")
+    print("1: ABase_Model")
+    print("2: A7C_Model")
+    print("3: A9C_Model")
+    print("4: A11C_Model")
 
     model_choice = input("\nEnter your choice (1/2/3/4): ").strip()
     
     model_map = {
-        "1": "Base_Model",
-        "2": "7C_Model",
-        "3": "9C_Model",
-        "4": "11C_Model"
+        "1": "ABase_Model",
+        "2": "A7C_Model",
+        "3": "A9C_Model",
+        "4": "A11C_Model"
     }
     
     if model_choice not in model_map:
@@ -230,4 +230,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
