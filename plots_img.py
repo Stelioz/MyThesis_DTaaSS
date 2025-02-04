@@ -39,7 +39,7 @@ def plot_boxplot(df, cameras):
     plt.xlabel("Cameras")
     plt.ylabel("Performance (%)")
     plt.title("Camera Performance Distribution")
-    plt.savefig("plots/a11c/camera_performance_boxplot.png")
+    plt.savefig("plots/base/camera_performance_boxplot.png")
     plt.show()
 
 # Histogram plot for performance distribution per camera
@@ -54,26 +54,33 @@ def plot_histograms(df, cameras):
         plt.ylabel("Density")
         plt.title(f"Histogram & Distribution of {cam.replace('_Performance', '')}")
         plt.legend()
-        plt.savefig(f"plots/a11c/histogram_{cam.replace('_Performance', '')}.png")
+        plt.savefig(f"plots/base/histogram_{cam.replace('_Performance', '')}.png")
         plt.show()
 
 # Correlation heatmap
 def plot_correlation_heatmap(df, cameras):
     plt.figure(figsize=(10, 8))
+    
+    # Compute correlation matrix and replace NaN with 0
     correlation_matrix = df[cameras].replace(0, np.nan).corr()
+    correlation_matrix = correlation_matrix.fillna(0)  # Replace NaN with 0
+    
+    # Plot heatmap
+    sns.heatmap(
+        correlation_matrix,
+        annot=True,
+        cmap="coolwarm",
+        fmt=".2f",
+        linewidths=0.5,
+        cbar_kws={"label": "Correlation"}
+    )
     
     # Remove "_Performance" from the heatmap labels
-    sns.heatmap(
-        correlation_matrix, 
-        annot=True, 
-        cmap="coolwarm", 
-        fmt=".2f", 
-        linewidths=0.5,
-        xticklabels=[cam.replace("_Performance", "") for cam in cameras],
-        yticklabels=[cam.replace("_Performance", "") for cam in cameras]
-    )
+    plt.xticks(ticks=range(len(cameras)), labels=[cam.replace("_Performance", "") for cam in cameras], rotation=45)
+    plt.yticks(ticks=range(len(cameras)), labels=[cam.replace("_Performance", "") for cam in cameras], rotation=0)
+    
     plt.title("Correlation Heatmap of Camera Performances")
-    plt.savefig("plots/a11c/camera_performance_correlation_heatmap.png")
+    plt.savefig("plots/base/camera_performance_correlation_heatmap.png")
     plt.show()
 
 # Histogram for all cameras combined
@@ -94,16 +101,32 @@ def plot_combined_histogram(df, cameras):
     plt.ylabel("Density")
     plt.title("Histogram & Distribution of the Model")
     plt.legend()
-    plt.savefig("plots/a11c/combined_camera_histogram.png")
+    plt.savefig("plots/base/combined_camera_histogram.png")
+    plt.show()
+
+# Combined distribution curves for all cameras
+def plot_combined_distribution_curves(df, cameras):
+    plt.figure(figsize=(10, 6))
+    
+    # Plot KDE for each camera
+    for cam in cameras:
+        sns.kdeplot(df[cam].replace(0, np.nan), label=cam.replace("_Performance", ""), linewidth=2)
+    
+    plt.xlabel("Performance (%)")
+    plt.ylabel("Density")
+    plt.title("Performance Distribution Curves for All Cameras")
+    plt.legend(title="Cameras", bbox_to_anchor=(1.05, 1), loc='upper left')  # Place legend outside the plot
+    plt.tight_layout()  # Adjust layout to prevent overlap
+    plt.savefig("plots/base/combined_camera_distribution_curves.png")
     plt.show()
 
 # Main execution
 def main():
     os.makedirs("plots/base", exist_ok=True)  # Ensure plots directory exists
     files = [
-        "output/a11c_model_morning_camera_performances.csv",
-        "output/a11c_model_noon_camera_performances.csv",
-        "output/a11c_model_afternoon_camera_performances.csv"
+        "output/base_model_morning_camera_performances.csv",
+        "output/base_model_noon_camera_performances.csv",
+        "output/base_model_afternoon_camera_performances.csv"
     ]
     df = load_and_combine(files)
     summary, cameras = process_data(df)
@@ -118,6 +141,7 @@ def main():
     plot_histograms(df, cameras)
     plot_correlation_heatmap(df, cameras)
     plot_combined_histogram(df, cameras)
+    plot_combined_distribution_curves(df, cameras)  # Add this line
 
 if __name__ == "__main__":
     main()
