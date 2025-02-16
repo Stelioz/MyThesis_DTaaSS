@@ -2,10 +2,10 @@
 # MyThesis_DTaaSS
 
 ## Overview
-This repository contains the code and resources for **Public Space Security Management Using Digital Twin Technologies** (MSc Thesis). The goal of the project is to create digital twin models for the security management of public spaces, focusing on preventing bomb attacks. The project uses FlexSim simulation software to model the "Agios Ioannis" metro station, integrating performance data from security cameras and generating statistical summaries.
+This repository contains the code and resources for **Public Space Security Management Using Digital Twin Technologies** (MSc Thesis). The goal of the project is to create a Digital Twin model for the security management of public spaces, focusing on preventing terrorist attacks. The project uses FlexSim simulation software to model the M2 "Agios Ioannis" metro station in Athens, integrating performance data from security cameras and generating statistical summaries.
 
 ## Features
-- **Digital Twin Model**: A simulated representation of Agios Ioannis metro station for security management.
+- **Digital Twin Model**: A simulated representation of M2 "Agios Ioannis" metro station in Athens for security management.
 - **Camera Data Simulation**: Analysis of security camera performance for detecting unusual behavior.
 - **Data Processing**: Clean and analyze performance data (e.g., histogram, correlation matrix, camera performance).
 - **Statistical Analysis**: Generate key statistics (e.g., best/worst performance, correlation, histogram) for camera performance.
@@ -41,13 +41,6 @@ This repository contains the code and resources for **Public Space Security Mana
    - **Combined Performance Data**
    - **Summary Statistics**
    - **Visualizations** stored in the `plots` directory.
-
-### Example Execution:
-```bash
-python analyze_performance.py
-```
-
-This will load the performance data, process it, and generate statistical summaries along with plots.
 
 ## Contributing
 If you would like to contribute, please fork the repository, make changes, and create a pull request.
