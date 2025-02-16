@@ -39,7 +39,7 @@ def plot_boxplot(df, cameras):
     plt.xlabel("Cameras")
     plt.ylabel("Performance (%)")
     plt.title("Camera Performance Distribution")
-    plt.savefig("plots/base/camera_performance_boxplot.png")
+    plt.savefig("plots/abase/camera_performance_boxplot.png")
     plt.show()
 
 # Histogram plot for performance distribution per camera
@@ -54,7 +54,7 @@ def plot_histograms(df, cameras):
         plt.ylabel("Density")
         plt.title(f"Histogram & Distribution of {cam.replace('_Performance', '')}")
         plt.legend()
-        plt.savefig(f"plots/base/histogram_{cam.replace('_Performance', '')}.png")
+        plt.savefig(f"plots/abase/histogram_{cam.replace('_Performance', '')}.png")
         plt.show()
 
 # Correlation heatmap
@@ -80,7 +80,7 @@ def plot_correlation_heatmap(df, cameras):
     plt.yticks(ticks=range(len(cameras)), labels=[cam.replace("_Performance", "") for cam in cameras], rotation=0)
     
     plt.title("Correlation Heatmap of Camera Performances")
-    plt.savefig("plots/base/camera_performance_correlation_heatmap.png")
+    plt.savefig("plots/abase/camera_performance_correlation_heatmap.png")
     plt.show()
 
 # Histogram for all cameras combined
@@ -91,17 +91,14 @@ def plot_combined_histogram(df, cameras):
     all_values = df[cameras].replace(0, np.nan).values.flatten()
     all_values = all_values[~np.isnan(all_values)]  # Remove NaN values
 
-    # Plot histogram
-    plt.hist(all_values, bins=50, alpha=0.6, color='purple', edgecolor='black', density=True, label="Histogram")
+    # Plot histogram (without density normalization)
+    plt.hist(all_values, bins=50, alpha=0.6, color='purple', edgecolor='black', density=False, label="Histogram")
     
-    # Add distribution line (KDE)
-    sns.kdeplot(all_values, color='red', linewidth=2, label="Curve")
-
     plt.xlabel("Performance (%)")
-    plt.ylabel("Density")
-    plt.title("Histogram & Distribution of the Model")
+    plt.ylabel("Frequency")  # Y-axis represents frequency (count)
+    plt.title("Histogram of the Model")
     plt.legend()
-    plt.savefig("plots/base/combined_camera_histogram.png")
+    plt.savefig("plots/abase/combined_camera_histogram.png")
     plt.show()
 
 # Combined distribution curves for all cameras
@@ -117,16 +114,16 @@ def plot_combined_distribution_curves(df, cameras):
     plt.title("Performance Distribution Curves for All Cameras")
     plt.legend(title="Cameras", bbox_to_anchor=(1.05, 1), loc='upper left')  # Place legend outside the plot
     plt.tight_layout()  # Adjust layout to prevent overlap
-    plt.savefig("plots/base/combined_camera_distribution_curves.png")
+    plt.savefig("plots/abase/combined_camera_distribution_curves.png")
     plt.show()
 
 # Main execution
 def main():
     os.makedirs("plots/base", exist_ok=True)  # Ensure plots directory exists
     files = [
-        "output/base_model_morning_camera_performances.csv",
-        "output/base_model_noon_camera_performances.csv",
-        "output/base_model_afternoon_camera_performances.csv"
+        "output/abase_model_morning_camera_performances.csv",
+        "output/abase_model_noon_camera_performances.csv",
+        "output/abase_model_afternoon_camera_performances.csv"
     ]
     df = load_and_combine(files)
     summary, cameras = process_data(df)

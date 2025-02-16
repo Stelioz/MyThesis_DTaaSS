@@ -161,50 +161,38 @@ class Model:
         output_file_path = os.path.join("output", f"{self.output_prefix}_camera_performances.csv")
         grouped_result.to_csv(output_file_path, index=False)
 
-        print("\nCamera Performances:")
-        print(grouped_result)
+        # print("\nCamera Performances:")
+        # print(grouped_result)
 
         if self.verbose:
-            print(f"Camera performances saved to: {output_file_path}")
+            print(f"Camera performances saved to: output/{self.output_prefix}_camera_performances.csv")
 
 
 def main():
     flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"
     models_dir = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/models/"
-    
-    print("Please choose the time of the day you want to simulate:")
-    print("1: Morning")
-    print("2: Noon")
-    print("3: Afternoon")
-    
-    time_choice = input("\nEnter your choice (1/2/3): ").strip()
-    
-    time_model_map = {
-        "1": "Morning",
-        "2": "Noon",
-        "3": "Afternoon"
-    }
-    
-    if time_choice not in time_model_map:
-        print("\nInvalid choice. Exiting...")
-        return
-    
-    time_of_day = time_model_map[time_choice]
-    print(f"\nYou selected: {time_of_day}")
 
-    print("\nPlease choose the model you want to simulate:")
-    print("1: Base_Model")
-    print("2: 7C_Model")
-    print("3: 9C_Model")
-    print("4: 11C_Model")
+    print("\nPlease choose the model you want to run:")
+    print("1: Scaled_Base_Model")
+    print("2: Scaled_Model_7")
+    print("3: Scaled_Model_9")
+    print("4: Scaled_Model_11")
+    print("5: Enhanced_Base_Model")
+    print("6: Enhanced_Model_7")
+    print("7: Enhanced_Model_9")
+    print("8: Enhanced_Model_11")
 
-    model_choice = input("\nEnter your choice (1/2/3/4): ").strip()
+    model_choice = input("\nEnter your choice (1 to 8): ").strip()
     
     model_map = {
-        "1": "Base_Model",
-        "2": "7C_Model",
-        "3": "9C_Model",
-        "4": "11C_Model"
+        "1": "Scaled_Base_Model",
+        "2": "Scaled_Model_7",
+        "3": "Scaled_Model_9",
+        "4": "Scaled_Model_11",
+        "5": "Enhanced_Base_Model",
+        "6": "Enhanced_Model_7",
+        "7": "Enhanced_Model_9",
+        "8": "Enhanced_Model_11"
     }
     
     if model_choice not in model_map:
@@ -215,8 +203,8 @@ def main():
     print(f"\nYou selected: {model_type}")
     
     # Combine time of day and model type to construct the model filename
-    model_file = f"{model_type}_{time_of_day}.fsm"
-    output_prefix = f"{model_type.lower()}_{time_of_day.lower()}"
+    model_file = f"{model_type}.fsm"
+    output_prefix = f"{model_type.lower()}"
     modelPath = os.path.join(models_dir, model_file)
     
     host = '127.0.0.1'
