@@ -69,11 +69,11 @@ This repository contains the code and resources for **Public Space Security Mana
 
 ## Contributing
 If you would like to contribute, please fork the repository, make changes, and create a pull request.
-<br/>
+<br/><br/>
 
 ## Special thanks
 For the development of this project, we used [FlexSim](https://www.flexsim.com/) (Student License) from FlexSim Software Products, Inc. and we want to thank them for their support. Also we would like to thank Mr. Krystian Kogut, International Sales Director and Board Member of [InterMarium](https://www.flexsim.com/contacts/intermarium/) for their help in acquiring the License.
-<br/>
+<br/><br/>
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
