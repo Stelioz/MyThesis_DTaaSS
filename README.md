@@ -1,5 +1,4 @@
-# Public Space Security Management Using Digital Twin Technologies
-# [HIT Piraeus Office](https://imet-piraeus.gr/) ![version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+# [Public Space Security Management Using Digital Twin Technologies] ![version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 
 ## Overview
 This repository contains the code and resources for **Public Space Security Management Using Digital Twin Technologies** (MSc Thesis). The goal of the project is to create a Digital Twin model for the security management of public spaces, focusing on preventing terrorist attacks. The project uses FlexSim simulation software to model the M2 "Agios Ioannis" metro station in Athens, integrating performance data from security cameras and generating statistical summaries.
