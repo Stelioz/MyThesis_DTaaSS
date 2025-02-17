@@ -1,5 +1,4 @@
-
-# MyThesis_DTaaSS
+# Public Space Security Management Using Digital Twin Technologies
 
 ## Overview
 This repository contains the code and resources for **Public Space Security Management Using Digital Twin Technologies** (MSc Thesis). The goal of the project is to create a Digital Twin model for the security management of public spaces, focusing on preventing terrorist attacks. The project uses FlexSim simulation software to model the M2 "Agios Ioannis" metro station in Athens, integrating performance data from security cameras and generating statistical summaries.
@@ -18,7 +17,6 @@ This repository contains the code and resources for **Public Space Security Mana
 - **Matplotlib**: For general plotting and data visualization
 
 ## Installation
-
 1. Clone the repository:
    ```bash
    git clone https://github.com/Stelioz/MyThesis_DTaaSS.git
