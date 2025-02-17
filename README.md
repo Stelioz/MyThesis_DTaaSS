@@ -19,15 +19,35 @@ This repository contains the code and resources for **Public Space Security Mana
 - **Matplotlib**: For general plotting and data visualization
 
 ## Installation
-1. Clone the repository:
+1. **Clone the repository**:  
+   Open your terminal and run the following command to clone the repository to your local machine:
    ```bash
    git clone https://github.com/Stelioz/MyThesis_DTaaSS.git
    cd MyThesis_DTaaSS
    ```
 
-2. Install dependencies:
+2. **Create a Virtual Environment** (Recommended):  
+   It is recommended to create a virtual environment to manage dependencies cleanly:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On macOS/Linux
+   .\venv\Scripts\activate  # On Windows
+   ```
+
+3. **Install Dependencies**:  
+   Install all required packages using the provided `requirements.txt` file:
    ```bash
    pip install -r requirements.txt
+   ```
+   If you encounter issues, try upgrading pip:
+   ```bash
+   python -m pip install --upgrade pip
+   ```
+
+4. **Verify Installation**:  
+   Ensure all dependencies are correctly installed by running:
+   ```bash
+   python -c "import pandas as pd; import numpy as np; import seaborn as sns; import matplotlib.pyplot as plt; print('All dependencies are installed correctly!')"
    ```
 
 ## Usage
@@ -45,11 +65,8 @@ This repository contains the code and resources for **Public Space Security Mana
 ## Contributing
 If you would like to contribute, please fork the repository, make changes, and create a pull request.
 
-## Software Development Team
-* Stylianos Zindros
-
 ## Special thanks
-For the development of this project, we used [FlexSim](https://www.flexsim.com/) from FlexSim Software Products, Inc. and we want to thank them for their support.
+For the development of this project, we used [FlexSim](https://www.flexsim.com/) (Student License) from FlexSim Software Products, Inc. and we want to thank them for their support. Also we would like to thank Mr. Krystian Kogut, International Sales Director and Board Member of [InterMarium](https://www.flexsim.com/contacts/intermarium/) for their help in acquiring the License.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
