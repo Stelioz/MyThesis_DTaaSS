@@ -4,12 +4,14 @@
 
 ## Overview
 This repository contains the code and resources for **Public Space Security Management Using Digital Twin Technologies** (MSc Thesis). The goal of the project is to create a Digital Twin model for the security management of public spaces, focusing on preventing terrorist attacks. The project uses FlexSim simulation software to model the M2 "Agios Ioannis" metro station in Athens, integrating performance data from security cameras and generating statistical summaries.
+<br/><br/>
 
 ## Features
 - **Digital Twin Model**: A simulated representation of M2 "Agios Ioannis" metro station in Athens for security management.
 - **Camera Data Simulation**: Analysis of security camera performance for detecting unusual behavior.
 - **Data Processing**: Clean and analyze performance data (e.g., histogram, correlation matrix, camera performance).
 - **Statistical Analysis**: Generate key statistics (e.g., best/worst performance, correlation, histogram) for camera performance.
+<br/>
 
 ## Requirements
 - **Python 3.12.7** (or compatible version)
@@ -17,6 +19,7 @@ This repository contains the code and resources for **Public Space Security Mana
 - **NumPy**: For numerical computations
 - **Seaborn**: For statistical plots and visualization
 - **Matplotlib**: For general plotting and data visualization
+<br/>
 
 ## Installation
 1. **Clone the repository**:  
@@ -49,6 +52,7 @@ This repository contains the code and resources for **Public Space Security Mana
    ```bash
    python -c "import pandas as pd; import numpy as np; import seaborn as sns; import matplotlib.pyplot as plt; print('All dependencies are installed correctly!')"
    ```
+<br/>
 
 ## Usage
 1. **Data Collection**: Run the scripts to load and combine CSV files of camera performance data.
@@ -61,12 +65,15 @@ This repository contains the code and resources for **Public Space Security Mana
    - **Combined Performance Data**
    - **Summary Statistics**
    - **Visualizations** stored in the `plots` directory.
+<br/>
 
 ## Contributing
 If you would like to contribute, please fork the repository, make changes, and create a pull request.
+<br/>
 
 ## Special thanks
 For the development of this project, we used [FlexSim](https://www.flexsim.com/) (Student License) from FlexSim Software Products, Inc. and we want to thank them for their support. Also we would like to thank Mr. Krystian Kogut, International Sales Director and Board Member of [InterMarium](https://www.flexsim.com/contacts/intermarium/) for their help in acquiring the License.
+<br/>
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
