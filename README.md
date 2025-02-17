@@ -1,4 +1,4 @@
-![image]![1SOLRWqUn9](https://github.com/user-attachments/assets/33749456-c9a4-4107-9e83-2a19ddc4b6b7)
+![banner](https://github.com/user-attachments/assets/c20177e8-4353-40f4-a46f-07faaedcb4c3)
 
 # Public Space Security Management Using Digital Twin Technologies ![version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 
