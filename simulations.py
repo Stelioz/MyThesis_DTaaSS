@@ -161,16 +161,13 @@ class Model:
         output_file_path = os.path.join("output", f"{self.output_prefix}_camera_performances.csv")
         grouped_result.to_csv(output_file_path, index=False)
 
-        # print("\nCamera Performances:")
-        # print(grouped_result)
-
         if self.verbose:
             print(f"Camera performances saved to: output/{self.output_prefix}_camera_performances.csv")
 
 
 def main():
-    flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"
-    models_dir = "C:/Users/steal/Documents/GitHub/MyThesis_DTaaSS/models/"
+    flexsimPath = ".../FlexSim 2024 Update 2/program/flexsim.exe" # Update the path to FlexSim executable
+    models_dir = ".../models/" # Update the path to the models directory
 
     print("\nPlease choose the model you want to run:")
     print("1: Scaled_Base_Model")
