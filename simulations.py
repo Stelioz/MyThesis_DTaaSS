@@ -170,7 +170,7 @@ class Model:
 
 def main():
     flexsimPath = "C:/Program Files/FlexSim 2024 Update 2/program/flexsim.exe"
-    models_dir = "C:/Users/steal/Documents/GitHub/FlexSim_Processor/models/"
+    models_dir = "C:/Users/steal/Documents/GitHub/MyThesis_DTaaSS/models/"
 
     print("\nPlease choose the model you want to run:")
     print("1: Scaled_Base_Model")
